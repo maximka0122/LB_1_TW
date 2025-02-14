@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site despre Mașini</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+        nav {
+            background-color: #444;
+            overflow: hidden;
+            text-align: center;
+        }
+        nav a {
+            display: inline-block;
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .content {
+            padding: 20px;
+            background-color: white;
+            margin: 20px;
+            min-height: 300px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Site despre Mașini</h1>
+</header>
+
+<nav>
+    <a onclick="loadPage('home')">Acasă</a>
+    <a onclick="loadPage('masini-electric')">Mașini Electrice</a>
+    <a onclick="loadPage('masini-sport')">Mașini Sport</a>
+    <a onclick="loadPage('masini-lux')">Mașini de Lux</a>
+    <a onclick="loadPage('masini-hibrid')">Mașini Hibride</a>
+</nav>
+
+<div id="content" class="content">
+    <h2>Bine ați venit pe site-ul nostru!</h2>
+    <p>Selectați o categorie din meniu pentru a afla mai multe despre diferitele tipuri de mașini.</p>
+</div>
+
+<footer>
+    <p>&copy; 2025 Site despre Mașini. Toate drepturile rezervate.</p>
+</footer>
+
+<script>
+    function loadPage(page) {
+        let content = document.getElementById('content');
+
+        if (page === 'home') {
+            content.innerHTML = `<h2>Bine ați venit pe site-ul nostru!</h2>
+            <p>Selectați o categorie din meniu pentru a afla mai multe despre diferitele tipuri de mașini.</p>`;
+        } else if (page === 'masini-electric') {
+            content.innerHTML = `<h2>Mașini Electrice - Tesla</h2>
+            <img src="images/tesla model s.jpg" alt="Tesla Model S" width="500">
+            <p>Tesla este unul dintre cei mai importanți producători de mașini electrice din lume. Modelele sale sunt cunoscute pentru autonomie ridicată, performanță și tehnologie avansată.</p>
+            <h3>Modele Populare Tesla:</h3>
+            <ul>
+                <li><b>Tesla Model S</b> - Autonomie de până la 600 km, accelerație 0-100 km/h în doar 2.1 secunde.</li>
+                <li><b>Tesla Model 3</b> - O opțiune accesibilă cu performanțe excelente și autonomie de până la 500 km.</li>
+                <li><b>Tesla Model X</b> - SUV electric cu uși Falcon și autonomie impresionantă.</li>
+                <li><b>Tesla Model Y</b> - Un crossover compact cu spațiu generos și autonomie de până la 530 km.</li>
+            </ul>
+            <h3>Caracteristici principale ale mașinilor Tesla:</h3>
+            <ul>
+                <li>Autopilot avansat și conducere autonomă.</li>
+                <li>Actualizări software over-the-air.</li>
+                <li>Stații de încărcare rapidă Supercharger.</li>
+                <li>Design modern și aerodinamic.</li>
+            </ul>
+            <p>Descoperă mai multe despre Tesla pe site-ul oficial: <a href="https://www.tesla.com/" target="_blank">Tesla.com</a></p>`;
+        } else if (page === 'masini-sport') {
+            content.innerHTML = `<h2>Mașini Sport</h2>
+            <h3>Ferrari 488</h3>
+            <img src="images/ferrari-488.jpg" alt="Ferrari 488" width="500">
+            <p>Ferrari 488 este un supercar cu motor V8, oferind o accelerație de 0-100 km/h în 3 secunde și o viteză maximă de 330 km/h.</p>
+            <h3>Porsche 911</h3>
+            <img src="images/porsche-911.jpg" alt="Porsche 911" width="500">
+            <p>Porsche 911 este un simbol al performanței și designului clasic. Acesta oferă o accelerație rapidă și un stil inconfundabil.</p>
+            <h3>Lamborghini Huracan</h3>
+            <img src="images/lamborghini-huracan.jpg" alt="Lamborghini Huracan" width="500">
+            <p>Lamborghini Huracan este un supercar cu motor V10, care atinge 100 km/h în doar 2.9 secunde.</p>`;
+        } else if (page === 'masini-lux') {
+            content.innerHTML = `<h2>Mașini de Lux</h2>
+            <h3>Rolls-Royce Phantom</h3>
+            <img src="images/rolls-royce-phantom.jpg" alt="Rolls-Royce Phantom" width="500">
+            <p>Rolls-Royce Phantom este o mașină de lux supremă, oferind confort de neegalat și o motorizare V12.</p>
+            <h3>Bentley Continental GT</h3>
+            <img src="images/bentley-continental-gt.jpg" alt="Bentley Continental GT" width="500">
+            <p>Bentley Continental GT este o mașină de lux cu performanțe remarcabile și un interior rafinat, ideal pentru confortul călătoriilor lungi.</p>
+            <h3>Mercedes-Benz S-Class</h3>
+            <img src="images/mercedes-benz-s-class.jpg" alt="Mercedes-Benz S-Class" width="500">
+            <p>Mercedes-Benz S-Class reprezintă epitomul confortului și tehnologiei în lumea mașinilor de lux.</p>`;
+        } else if (page === 'masini-hibrid') {
+            content.innerHTML = `<h2>Mașini Hibride</h2>
+            <h3>Toyota Prius</h3>
+            <img src="images/toyota-prius.jpg" alt="Toyota Prius" width="500">
+            <p>Toyota Prius este unul dintre cele mai populare modele hibride, oferind o combinație de performanță și eficiență energetică.</p>
+            <h3>Honda CR-V Hybrid</h3>
+            <img src="images/honda-crv-hybrid.jpg" alt="Honda CR-V Hybrid" width="500">
+            <p>Honda CR-V Hybrid este un SUV compact hibrid, care combină performanțele bune cu economia de combustibil.</p>
+            <h3>BMW X5 Hybrid</h3>
+            <img src="images/bmw-x5-hybrid.jpg" alt="BMW X5 Hybrid" width="500">
+            <p>BMW X5 Hybrid este un SUV hibrid premium, care oferă putere și eficiență într-un pachet de lux.</p>`;
+        }
+    }
+</script>
+
+</body>
+</html>
