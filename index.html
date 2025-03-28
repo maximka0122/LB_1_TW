@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="css/index-style.css">
 </head>
 <body>
+    <!-- Slideshow container -->
+    <div class="slideshow">
+        <div class="slide active" style="background-image: url('imagini/fundal1.jpg');"></div>
+        <div class="slide" style="background-image: url('imagini/fundal2.avif');"></div>
+        <div class="slide" style="background-image: url('imagini/fundal3.jpg');"></div>
+        <div class="slide" style="background-image: url('imagini/fundal4.jpg');"></div>
+    </div>
+
     <header>
         <h1>AutoMarket</h1>
         <nav>
@@ -17,12 +25,14 @@
     </header>
 
     <section class="welcome-section">
-        <h2>Bine ați venit la AutoMarket!</h2>
-        <p>Găsiți mașina potrivită pentru dumneavoastră.</p>
+        <h2 id="welcome-title"></h2>
+        <p id="welcome-text"></p>
     </section>
 
     <footer>
         &copy; 2025 AutoMarket - Platforma de vânzări auto
     </footer>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

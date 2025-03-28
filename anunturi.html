@@ -17,89 +17,135 @@
     </header>
 
     <section class="car-list">
-        <!-- Mașina 1 -->
+        <!-- Mașina 1: Tesla Model S -->
         <div class="car-item">
             <img src="imagini/tesla-s.jpg" alt="Tesla Model S" class="car-image">
             <h3>Tesla Model S</h3>
             <p>Autonomie: 650 km</p>
             <p>Preț: 80.000€</p>
+            <button onclick="showDetails('Tesla Model S', 'Tesla Model S este o mașină electrică de lux, cunoscută pentru performanța sa excelentă și autonomia impresionantă. Este echipată cu tehnologie avansată și oferă o experiență de condus plăcută și sigură.')">Detalii</button>
         </div>
 
-        <!-- Mașina 2 -->
+        <!-- Mașina 2: BMW i4 -->
         <div class="car-item">
             <img src="imagini/bmw.jpg" alt="BMW i4" class="car-image">
             <h3>BMW i4</h3>
             <p>Autonomie: 590 km</p>
             <p>Preț: 60.000€</p>
+            <button onclick="showDetails('BMW i4', 'BMW i4 este o mașină electrică sport, care combină designul elegant BMW cu tehnologia electrică avansată. Este ideală pentru cei care doresc performanță și stil.')">Detalii</button>
         </div>
 
-        <!-- Mașina 3 -->
+        <!-- Mașina 3: Audi e-tron -->
         <div class="car-item">
             <img src="imagini/audi.jpg" alt="Audi e-tron" class="car-image">
             <h3>Audi e-tron</h3>
             <p>Autonomie: 400 km</p>
             <p>Preț: 70.000€</p>
+            <button onclick="showDetails('Audi e-tron', 'Audi e-tron este un SUV electric premium, oferind spațiu generos, confort și tehnologie de ultimă oră. Este perfect pentru familii sau călătorii lungi.')">Detalii</button>
         </div>
 
-        <!-- Mașina 4 -->
+        <!-- Mașina 4: Mercedes EQS -->
         <div class="car-item">
             <img src="imagini/mercedes.jpg" alt="Mercedes EQS" class="car-image">
             <h3>Mercedes EQS</h3>
             <p>Autonomie: 700 km</p>
             <p>Preț: 100.000€</p>
+            <button onclick="showDetails('Mercedes EQS', 'Mercedes EQS este o mașină electrică de lux, cu un design futurist și o autonomie impresionantă. Este echipată cu cele mai noi tehnologii Mercedes.')">Detalii</button>
         </div>
 
-        <!-- Mașina 5 -->
+        <!-- Mașina 5: Porsche Taycan -->
         <div class="car-item">
             <img src="imagini/porsche.jpg" alt="Porsche Taycan" class="car-image">
             <h3>Porsche Taycan</h3>
             <p>Autonomie: 450 km</p>
             <p>Preț: 110.000€</p>
+            <button onclick="showDetails('Porsche Taycan', 'Porsche Taycan este o mașină electrică sport, care oferă performanțe de top și un design iconic. Este perfectă pentru pasionații de viteza și design.')">Detalii</button>
         </div>
 
-        <!-- Mașina 6 -->
+        <!-- Mașina 6: Nissan Leaf -->
         <div class="car-item">
             <img src="imagini/nissan.jpg" alt="Nissan Leaf" class="car-image">
             <h3>Nissan Leaf</h3>
             <p>Autonomie: 270 km</p>
             <p>Preț: 35.000€</p>
+            <button onclick="showDetails('Nissan Leaf', 'Nissan Leaf este o mașină electrică accesibilă, ideală pentru oraș. Este fiabilă, eficientă și oferă o experiență de condus simplă și plăcută.')">Detalii</button>
         </div>
 
-        <!-- Mașina 7 -->
+        <!-- Mașina 7: Hyundai Ioniq 5 -->
         <div class="car-item">
             <img src="imagini/hyundai.avif" alt="Hyundai Ioniq 5" class="car-image">
             <h3>Hyundai Ioniq 5</h3>
             <p>Autonomie: 480 km</p>
             <p>Preț: 50.000€</p>
+            <button onclick="showDetails('Hyundai Ioniq 5', 'Hyundai Ioniq 5 este un SUV electric modern, cu un design inovator și tehnologie avansată. Este perfect pentru cei care doresc un echilibru între stil și performanță.')">Detalii</button>
         </div>
 
-        <!-- Mașina 8 -->
+        <!-- Mașina 8: Ford Mustang Mach-E -->
         <div class="car-item">
             <img src="imagini/ford.jpg" alt="Ford Mustang Mach-E" class="car-image">
             <h3>Ford Mustang Mach-E</h3>
             <p>Autonomie: 490 km</p>
             <p>Preț: 55.000€</p>
+            <button onclick="showDetails('Ford Mustang Mach-E', 'Ford Mustang Mach-E este un SUV electric inspirat de legendarul Mustang. Combină stilul iconic cu tehnologia electrică modernă.')">Detalii</button>
         </div>
 
-        <!-- Mașina 9 -->
+        <!-- Mașina 9: Rivian R1T -->
         <div class="car-item">
             <img src="imagini/rivian.jpg" alt="Rivian R1T" class="car-image">
             <h3>Rivian R1T</h3>
             <p>Autonomie: 505 km</p>
             <p>Preț: 75.000€</p>
+            <button onclick="showDetails('Rivian R1T', 'Rivian R1T este un camion electric robust, perfect pentru aventuri off-road. Este echipat cu tehnologie avansată și oferă o autonomie impresionantă.')">Detalii</button>
         </div>
 
-        <!-- Mașina 10 -->
+        <!-- Mașina 10: Volkswagen ID.4 -->
         <div class="car-item">
             <img src="imagini/vw.png" alt="Volkswagen ID.4" class="car-image">
             <h3>Volkswagen ID.4</h3>
             <p>Autonomie: 520 km</p>
             <p>Preț: 45.000€</p>
+            <button onclick="showDetails('Volkswagen ID.4', 'Volkswagen ID.4 este un SUV electric practic și accesibil, ideal pentru familii. Oferă un spațiu generos și o autonomie bună.')">Detalii</button>
         </div>
     </section>
+
+    <!-- Fereastra modală pentru detalii -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+        </div>
+    </div>
 
     <footer>
         &copy; 2025 AutoMarket - Platforma de vânzări auto
     </footer>
+
+    <script>
+        // Funcție pentru afișarea detaliilor
+        function showDetails(title, description) {
+            const modal = document.getElementById("modal");
+            const modalTitle = document.getElementById("modal-title");
+            const modalDescription = document.getElementById("modal-description");
+
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modal.style.display = "block";
+        }
+
+        // Funcție pentru închiderea ferestrei modale
+        function closeModal() {
+            const modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+
+        // Închide fereastra modală când se dă click în afara ei
+        window.onclick = function (event) {
+            const modal = document.getElementById("modal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+    </script>
 </body>
 </html>
