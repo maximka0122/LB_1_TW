@@ -1,23 +1,22 @@
-/* Stiluri de bază */
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     color: #333;
-    position: relative;
+    overflow-x: hidden;
 }
 
-/* Slideshow container */
+/* Slideshow Styles */
 .slideshow {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    z-index: -1; /* Pune slideshow-ul în fundal */
+    height: 100vh;
+    z-index: 1;
 }
 
-/* Stiluri pentru slide-uri */
 .slide {
     position: absolute;
     top: 0;
@@ -34,80 +33,252 @@ body {
     opacity: 1;
 }
 
-/* Stiluri pentru conținut */
+/* Auth Container */
+.auth-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+
+.auth-forms {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    z-index: 1001;
+}
+
+.auth-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.user-info {
+    display: none;
+    align-items: center;
+    gap: 15px;
+    background-color: rgba(0,0,0,0.7);
+    padding: 10px 15px;
+    border-radius: 4px;
+    z-index: 1001;
+}
+
+.user-info span {
+    color: white;
+    font-weight: bold;
+}
+
+.logout-btn {
+    padding: 8px 15px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Header Styles */
 header {
-    background-color: rgba(51, 51, 51, 0.8); /* Fundal semi-transparent */
-    color: #fff;
-    padding: 20px;
-    text-align: center;
     position: relative;
-    z-index: 1;
+    z-index: 100;
+    text-align: center;
+    padding: 20px 0;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 header h1 {
+    color: white;
     margin: 0;
     font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 nav {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 nav a {
-    color: #fff;
+    color: white;
     text-decoration: none;
     margin: 0 15px;
-    font-size: 1.2em;
+    font-size: 1.1em;
+    transition: color 0.3s;
 }
 
 nav a:hover {
-    text-decoration: underline;
+    color: #4CAF50;
+}
+
+/* Main Content */
+.content {
+    position: relative;
+    z-index: 50;
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .welcome-section {
     text-align: center;
-    padding: 20px; /* Reducem padding-ul */
-    position: relative;
-    z-index: 1;
-    background-color: rgba(255, 255, 255, 0.8); /* Fundal semi-transparent */
-    margin: 10px; /* Reducem margin-ul */
+    padding: 40px;
+    background-color: rgba(0, 0, 0, 0.6);
     border-radius: 10px;
-    max-width: 600px; /* Limităm lățimea maximă */
-    margin-left: auto; /* Centrăm pe orizontală */
-    margin-right: auto;
+    max-width: 800px;
+    margin: 20px;
 }
 
 .welcome-section h2 {
-    font-size: 1.8em; /* Micșorăm dimensiunea titlului */
-    margin-bottom: 10px; /* Reducem spațiul sub titlu */
+    color: white;
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    opacity: 0;
+    animation: fadeInUp 1s ease-out forwards;
 }
 
 .welcome-section p {
-    font-size: 1em; /* Micșorăm dimensiunea textului */
-    color: #666;
-    margin: 0; /* Eliminăm margin-ul implicit al paragrafului */
+    color: #ddd;
+    font-size: 1.2em;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out 0.5s forwards;
 }
 
-footer {
-    background-color: rgba(51, 51, 51, 0.8); /* Fundal semi-transparent */
-    color: #fff;
-    text-align: center;
-    padding: 10px;
+/* Modal Styles */
+.modal {
+    display: none;
     position: fixed;
-    bottom: 0;
+    z-index: 2000;
+    left: 0;
+    top: 0;
     width: 100%;
-    z-index: 1;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
 }
 
-/* Stilul cursorului */
-.cursor {
-    display: inline-block;
-    width: 2px;
-    background-color: #333;
-    animation: blink 0.7s infinite;
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 8px;
+    width: 350px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: modalFadeIn 0.3s;
 }
 
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #333;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: #f44336;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Footer Styles */
+footer {
+    position: relative;
+    z-index: 100;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

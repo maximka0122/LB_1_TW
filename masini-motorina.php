@@ -10,9 +10,9 @@
     <header>
         <h1>Mașini pe Motorină</h1>
         <nav>
-            <a href="index.html">Acasă</a>
-            <a href="anunturi.html">Mașini Electrice</a>
-            <a href="add.html">Adaugă Anunț</a>
+            <a href="index.php">Acasă</a>
+            <a href="anunturi.php">Mașini Electrice</a>
+            <a href="add.php">Adaugă Anunț</a>
         </nav>
     </header>
 
