@@ -1,146 +1,224 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is already logged in
-    const loggedInUser = localStorage.getItem('loggedInUser');
-    if (loggedInUser) {
-        showUserInfo(JSON.parse(loggedInUser));
-    }
-
-    // Set up modal functionality
+document.addEventListener('DOMContentLoaded', function () {
     const loginModal = document.getElementById('loginModal');
     const registerModal = document.getElementById('registerModal');
     const loginBtn = document.getElementById('loginBtn');
     const registerBtn = document.getElementById('registerBtn');
     const closeButtons = document.getElementsByClassName('close');
 
-    // Open login modal
+    // Verifică dacă utilizatorul e deja logat
+    const loggedInUser = localStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+        showUserInfo(JSON.parse(loggedInUser));
+    }
+
+    // Deschide modalele
     if (loginBtn) {
-        loginBtn.addEventListener('click', function() {
+        loginBtn.addEventListener('click', () => {
             loginModal.style.display = 'block';
             document.getElementById('loginError').textContent = '';
         });
     }
 
-    // Open register modal
     if (registerBtn) {
-        registerBtn.addEventListener('click', function() {
+        registerBtn.addEventListener('click', () => {
             registerModal.style.display = 'block';
             document.getElementById('registerError').textContent = '';
         });
     }
 
-    // Close modals
     for (let i = 0; i < closeButtons.length; i++) {
-        closeButtons[i].addEventListener('click', function() {
+        closeButtons[i].addEventListener('click', () => {
             loginModal.style.display = 'none';
             registerModal.style.display = 'none';
         });
     }
 
-    // Close modals when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === loginModal) {
-            loginModal.style.display = 'none';
-        }
-        if (event.target === registerModal) {
-            registerModal.style.display = 'none';
-        }
+    window.addEventListener('click', function (event) {
+        if (event.target === loginModal) loginModal.style.display = 'none';
+        if (event.target === registerModal) registerModal.style.display = 'none';
     });
 
-    // Login form submission
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    // 🔐 Login AJAX
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
-        
-        // In a real app, you would send this to a server for verification
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-            localStorage.setItem('loggedInUser', JSON.stringify(user));
-            showUserInfo(user);
-            loginModal.style.display = 'none';
-            document.getElementById('loginError').textContent = '';
-            document.getElementById('loginForm').reset();
-        } else {
-            document.getElementById('loginError').textContent = 'Email sau parolă incorectă';
-        }
+
+        fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                localStorage.setItem('loggedInUser', JSON.stringify(data.user));
+                showUserInfo(data.user);
+                loginModal.style.display = 'none';
+                document.getElementById('loginError').textContent = '';
+                document.getElementById('loginForm').reset();
+            } else {
+                document.getElementById('loginError').textContent = data.message || 'Email sau parolă incorectă';
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById('loginError').textContent = 'Eroare la conectare cu serverul';
+        });
     });
 
-    // Register form submission
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
+    // 📝 Înregistrare AJAX
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const name = document.getElementById('registerName').value;
         const email = document.getElementById('registerEmail').value;
         const password = document.getElementById('registerPassword').value;
         const confirmPassword = document.getElementById('registerConfirmPassword').value;
-        
+
         if (password !== confirmPassword) {
             document.getElementById('registerError').textContent = 'Parolele nu coincid';
             return;
         }
-        
+
         if (password.length < 6) {
             document.getElementById('registerError').textContent = 'Parola trebuie să aibă minim 6 caractere';
             return;
         }
-        
-        // Check if user already exists
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const userExists = users.some(u => u.email === email);
-        
-        if (userExists) {
-            document.getElementById('registerError').textContent = 'Acest email este deja înregistrat';
-            return;
-        }
-        
-        // Add new user
-        const newUser = { 
-            id: Date.now().toString(),
-            name, 
-            email, 
-            password,
-            registrationDate: new Date().toISOString()
-        };
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-        
-        // Log in the new user
-        localStorage.setItem('loggedInUser', JSON.stringify(newUser));
-        showUserInfo(newUser);
-        registerModal.style.display = 'none';
-        document.getElementById('registerError').textContent = '';
-        document.getElementById('registerForm').reset();
+
+        fetch('/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                localStorage.setItem('loggedInUser', JSON.stringify(data.user));
+                showUserInfo(data.user);
+                registerModal.style.display = 'none';
+                document.getElementById('registerError').textContent = '';
+                document.getElementById('registerForm').reset();
+            } else {
+                document.getElementById('registerError').textContent = data.message || 'Eroare la înregistrare';
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById('registerError').textContent = 'Eroare la conectare cu serverul';
+        });
     });
 
-    // Logout functionality
-    document.getElementById('logoutBtn').addEventListener('click', function() {
+    document.getElementById('logoutBtn').addEventListener('click', () => {
         localStorage.removeItem('loggedInUser');
         document.getElementById('authButtons').style.display = 'flex';
         document.getElementById('userInfo').style.display = 'none';
     });
 
-    // Function to show user info and hide auth buttons
     function showUserInfo(user) {
         document.getElementById('authButtons').style.display = 'none';
         document.getElementById('userInfo').style.display = 'flex';
         document.getElementById('usernameDisplay').textContent = `Bun venit, ${user.name}`;
     }
 
-    // Slideshow functionality
+    // Slideshow
     let currentSlide = 0;
     const slides = document.querySelectorAll('.slide');
-    
     function showSlide(n) {
         slides.forEach(slide => slide.classList.remove('active'));
         currentSlide = (n + slides.length) % slides.length;
         slides[currentSlide].classList.add('active');
     }
-    
     function nextSlide() {
         showSlide(currentSlide + 1);
     }
-    
-    // Change slide every 5 seconds
     setInterval(nextSlide, 5000);
-});
+
+
+    // --- FUNCȚIONALITATEA VEZI PRODUSE (Adăugată FĂRĂ modificarea codului tău existent) ---
+    document.addEventListener('DOMContentLoaded', function () {
+        // ... (păstrează codul existent pentru login/register până la slideshow)
+    
+        // --- FUNCȚIONALITATEA VEZI PRODUSE MODIFICATĂ ---
+        const seeProductsBtn = document.getElementById("seeProductsBtn");
+        const productsModal = document.getElementById("productsModal");
+        const productsModalClose = document.getElementById("productsModalClose");
+        const productsList = document.getElementById("productsList");
+        const productsSearch = document.getElementById("productsSearch");
+    
+        let products = [];
+    
+        seeProductsBtn.addEventListener("click", () => {
+            productsModal.style.display = "block";
+            if (products.length === 0) {
+                // Folosim $.ajax() în loc de fetch()
+                $.ajax({
+                    url: "products.json",
+                    method: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        products = data;
+                        displayProducts(products);
+                    },
+                    error: function() {
+                        productsList.innerHTML = "<li>Eroare la încărcarea produselor.</li>";
+                    }
+                });
+            } else {
+                displayProducts(products);
+            }
+        });
+    
+        productsModalClose.addEventListener("click", () => {
+            productsModal.style.display = "none";
+            productsSearch.value = "";
+            displayProducts(products);
+        });
+    
+        window.addEventListener("click", event => {
+            if (event.target === productsModal) {
+                productsModal.style.display = "none";
+                productsSearch.value = "";
+                displayProducts(products);
+            }
+        });
+    
+        productsSearch.addEventListener("input", () => {
+            const query = productsSearch.value.toLowerCase().trim();
+            if (query.length === 0) {
+                displayProducts(products);
+                return;
+            }
+            
+            // Folosim $.ajax() pentru căutare
+            $.ajax({
+                url: "products.json",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    const filtered = data.filter(prod => 
+                        prod.name.toLowerCase().includes(query) || 
+                        prod.description.toLowerCase().includes(query)
+                    );
+                    displayProducts(filtered);
+                },
+                error: function() {
+                    productsList.innerHTML = "<li>Eroare la căutare.</li>";
+                }
+            });
+        });
+    
+        function displayProducts(list) {
+            if (!list || list.length === 0) {
+                productsList.innerHTML = "<li>Nu s-au găsit produse.</li>";
+                return;
+            }
+            productsList.innerHTML = "";
+            list.forEach(prod => {
+                const li = document.createElement("li");
+                li.innerHTML = `<strong>${prod.name}</strong><br/>
+                                ${prod.description}<br/>
+                                <em>Preț: ${prod.price}</em>`;
+                productsList.appendChild(li);
+            });
+        }
+    });

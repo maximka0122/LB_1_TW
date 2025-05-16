@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Audi A4",
+    "description": "Mașină elegantă și confortabilă",
+    "price": "15,000€"
+  },
+  {
+    "name": "BMW X5",
+    "description": "SUV performant și spațios",
+    "price": "30,000€"
+  },
+  {
+    "name": "Mercedes C Class",
+    "description": "Lux și confort la superlativ",
+    "price": "25,000€"
+  },
+  {
+    "name": "Volkswagen Golf",
+    "description": "Compactă și economică",
+    "price": "12,000€"
+  },
+  {
+    "name": "Toyota Corolla",
+    "description": "Fiabilă și populară",
+    "price": "10,000€"
+  }
+]

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AutoMarket - Pagina Principală</title>
+    <link rel="stylesheet" href="css/index-style.css" />
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Stiluri rapide pentru butonul Vezi Produse în header */
+        header nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        #seeProductsBtn {
+            padding: 6px 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Stiluri pentru modal produse */
+        #productsModal {
+            display: none; /* ascuns implicit */
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        #productsModal .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        #productsModal .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #productsModal ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        #productsModal li {
+            margin-bottom: 12px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 8px;
+        }
+        #productsSearch {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Slideshow Container -->
+    <div class="slideshow">
+        <div class="slide active" style="background-image: url('imagini/fundal1.jpg');"></div>
+        <div class="slide" style="background-image: url('imagini/fundal2.avif');"></div>
+        <div class="slide" style="background-image: url('imagini/fundal3.jpg');"></div>
+        <div class="slide" style="background-image: url('imagini/fundal4.jpg');"></div>
+    </div>
+
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <div class="auth-forms" id="authButtons">
+            <button class="auth-btn" id="loginBtn">Autentificare</button>
+            <button class="auth-btn" id="registerBtn">Înregistrare</button>
+        </div>
+        <div class="user-info" id="userInfo">
+            <span id="usernameDisplay"></span>
+            <button class="logout-btn" id="logoutBtn">Deconectare</button>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <h1>AutoMarket</h1>
+        <nav>
+            <a href="anunturi.html">Mașini Electrice</a>
+            <a href="masini-motorina.html">Mașini pe Motorină</a>
+            <a href="add.html">Adaugă Anunț</a>
+            <button id="seeProductsBtn">Vezi Produse</button>
+        </nav>
+    </header>
+
+    <!-- Welcome Section with Animated Text -->
+    <main class="content">
+        <section class="welcome-section">
+            <h2 id="welcome-title" class="animated-title">Bun venit la AutoMarket</h2>
+            <p id="welcome-text" class="animated-text">Cea mai bună piață auto din Moldova</p>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Autentificare</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" required />
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Parolă:</label>
+                    <input type="password" id="loginPassword" required />
+                </div>
+                <button type="submit" class="submit-btn">Autentificare</button>
+            </form>
+            <p id="loginError" class="error-message"></p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Înregistrare</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nume:</label>
+                    <input type="text" id="registerName" required />
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email:</label>
+                    <input type="email" id="registerEmail" required />
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Parolă:</label>
+                    <input type="password" id="registerPassword" required />
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirmă parola:</label>
+                    <input type="password" id="registerConfirmPassword" required />
+                </div>
+                <button type="submit" class="submit-btn">Înregistrare</button>
+            </form>
+            <p id="registerError" class="error-message"></p>
+        </div>
+    </div>
+
+    <!-- Products Modal -->
+    <div id="productsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="productsModalClose">&times;</span>
+            <h2>Produse AutoMarket</h2>
+            <input type="text" id="productsSearch" placeholder="Caută produse..." />
+            <ul id="productsList"></ul>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 AutoMarket - Platforma de vânzări auto
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Slideshow simplu (opțional)
+            let slides = $(".slideshow .slide");
+            let currentSlide = 0;
+            setInterval(() => {
+                slides.removeClass("active");
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides.eq(currentSlide).addClass("active");
+            }, 4000);
+
+            // Verifică dacă utilizatorul e deja logat
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                showUserInfo(JSON.parse(loggedInUser));
+            }
+
+            // Deschide modalele
+            $("#loginBtn").click(() => {
+                $("#loginModal").show();
+                $("#loginError").text('');
+            });
+
+            $("#registerBtn").click(() => {
+                $("#registerModal").show();
+                $("#registerError").text('');
+            });
+
+            $(".close").click(function() {
+                $(this).closest(".modal").hide();
+            });
+
+            $(window).click(function(event) {
+                if ($(event.target).is(".modal")) {
+                    $(".modal").hide();
+                }
+            });
+
+            // 🔐 Login AJAX
+            $("#loginForm").submit(function(e) {
+                e.preventDefault();
+                const email = $("#loginEmail").val();
+                const password = $("#loginPassword").val();
+
+                $.ajax({
+                    url: '/login',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ email, password }),
+                    success: function(data) {
+                        if (data.success) {
+                            localStorage.setItem('loggedInUser', JSON.stringify(data.user));
+                            showUserInfo(data.user);
+                            $("#loginModal").hide();
+                            $("#loginError").text('');
+                            $("#loginForm")[0].reset();
+                        } else {
+                            $("#loginError").text(data.message || 'Email sau parolă incorectă');
+                        }
+                    },
+                    error: function() {
+                        $("#loginError").text('Eroare la conectare cu serverul');
+                    }
+                });
+            });
+
+            // 📝 Înregistrare AJAX
+            $("#registerForm").submit(function(e) {
+                e.preventDefault();
+                const name = $("#registerName").val();
+                const email = $("#registerEmail").val();
+                const password = $("#registerPassword").val();
+                const confirmPassword = $("#registerConfirmPassword").val();
+
+                if (password !== confirmPassword) {
+                    $("#registerError").text('Parolele nu coincid');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    $("#registerError").text('Parola trebuie să aibă minim 6 caractere');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/register',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ name, email, password }),
+                    success: function(data) {
+                        if (data.success) {
+                            localStorage.setItem('loggedInUser', JSON.stringify(data.user));
+                            showUserInfo(data.user);
+                            $("#registerModal").hide();
+                            $("#registerError").text('');
+                            $("#registerForm")[0].reset();
+                        } else {
+                            $("#registerError").text(data.message || 'Eroare la înregistrare');
+                        }
+                    },
+                    error: function() {
+                        $("#registerError").text('Eroare la conectare cu serverul');
+                    }
+                });
+            });
+
+            $("#logoutBtn").click(() => {
+                localStorage.removeItem('loggedInUser');
+                $("#authButtons").show();
+                $("#userInfo").hide();
+            });
+
+            function showUserInfo(user) {
+                $("#authButtons").hide();
+                $("#userInfo").show();
+                $("#usernameDisplay").text(`Bun venit, ${user.name}`);
+            }
+
+            // --- FUNCȚIONALITATEA VEZI PRODUSE ---
+            const products = [];
+            
+            $("#seeProductsBtn").click(function() {
+                $("#productsModal").show();
+                if (products.length === 0) {
+                    $.ajax({
+                        url: "products.json",
+                        method: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            products.length = 0; // Clear array
+                            Array.prototype.push.apply(products, data); // Fill with new data
+                            displayProducts(products);
+                        },
+                        error: function() {
+                            $("#productsList").html("<li>Eroare la încărcarea produselor.</li>");
+                        }
+                    });
+                } else {
+                    displayProducts(products);
+                }
+            });
+
+            $("#productsModalClose, #productsModal .close").click(function() {
+                $("#productsModal").hide();
+                $("#productsSearch").val("");
+                displayProducts(products);
+            });
+
+            $("#productsSearch").on("input", function() {
+                const query = $(this).val().toLowerCase().trim();
+                if (query.length === 0) {
+                    displayProducts(products);
+                    return;
+                }
+                
+                const filtered = products.filter(prod => 
+                    prod.name.toLowerCase().includes(query) || 
+                    prod.description.toLowerCase().includes(query)
+                );
+                displayProducts(filtered);
+            });
+
+            function displayProducts(list) {
+                const $productsList = $("#productsList");
+                if (!list || list.length === 0) {
+                    $productsList.html("<li>Nu s-au găsit produse.</li>");
+                    return;
+                }
+                $productsList.empty();
+                list.forEach(prod => {
+                    $productsList.append(
+                        `<li><strong>${prod.name}</strong><br/>
+                        ${prod.description}<br/>
+                        <em>Preț: ${prod.price}</em></li>`
+                    );
+                });
+            }
+        });
+    </script>
+</body>
+</html>
